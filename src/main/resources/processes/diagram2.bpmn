@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+    <process id="testTask" name="Test task">
+        <documentation>Test task.</documentation>
+        <startEvent id="startEvent" name="startEvent"></startEvent>
+        <sequenceFlow sourceRef="startEvent" targetRef="serviceTask"></sequenceFlow>
+        <serviceTask id="serviceTask" name="GenerateData" activiti:class="ru.astronarh.activity.service.GenerateDataService"></serviceTask>
+        <sequenceFlow sourceRef="serviceTask" targetRef="exclusiveGateway"></sequenceFlow>
+        <exclusiveGateway id="exclusiveGateway" name="exclusiveGateway"></exclusiveGateway>
+        <sequenceFlow sourceRef="exclusiveGateway" targetRef="userTaskA">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${postValue + randomData >= 100}]]></conditionExpression>
+        </sequenceFlow>
+        <sequenceFlow sourceRef="exclusiveGateway" targetRef="userTaskB">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${postValue + randomData < 100}]]></conditionExpression>
+        </sequenceFlow>
+        <userTask id="userTaskA" name="userTaskA" activiti:assignee="Task A"></userTask>
+        <userTask id="userTaskB" name="userTaskB" activiti:assignee="Task B"></userTask>
+        <sequenceFlow sourceRef="userTaskA" targetRef="exclusiveGatewayExit"></sequenceFlow>
+        <sequenceFlow sourceRef="userTaskB" targetRef="exclusiveGatewayExit"></sequenceFlow>
+        <exclusiveGateway id="exclusiveGatewayExit" name="exclusiveGatewayExit"></exclusiveGateway>
+        <sequenceFlow sourceRef="exclusiveGatewayExit" targetRef="endEvent"></sequenceFlow>
+        <endEvent id="endEvent" name="endEvent"></endEvent>
+    </process>
+    <bpmndi:BPMNDiagram>
+        <bpmndi:BPMNPlane>
+            <bpmndi:BPMNShape bpmnElement="endEvent">
+                <omgdc:Bounds height="48.0" width="48.0" x="354.0" y="-29.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="serviceTask">
+                <omgdc:Bounds height="48.0" width="120.0" x="-217.0" y="-27.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="startEvent">
+                <omgdc:Bounds height="48.0" width="48.0" x="-343.0" y="-28.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="exclusiveGateway">
+                <omgdc:Bounds height="48.0" width="48.0" x="-59.0" y="-29.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="userTaskA">
+                <omgdc:Bounds height="48.0" width="120.0" x="109.0" y="-140.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="userTaskB">
+                <omgdc:Bounds height="48.0" width="120.0" x="122.0" y="66.0"/>
+            </bpmndi:BPMNShape>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+    <bpmndi:BPMNDiagram>
+        <bpmndi:BPMNPlane>
+            <bpmndi:BPMNShape bpmnElement="endEvent">
+                <omgdc:Bounds height="48.0" width="48.0" x="177.0" y="-32.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="exclusiveGateway">
+                <omgdc:Bounds height="48.0" width="48.0" x="-325.0" y="-34.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="serviceTask">
+                <omgdc:Bounds height="48.0" width="120.0" x="-483.0" y="-35.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="startEvent">
+                <omgdc:Bounds height="48.0" width="48.0" x="-557.0" y="-40.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="userTaskA">
+                <omgdc:Bounds height="48.0" width="120.0" x="-207.0" y="-96.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="userTaskB">
+                <omgdc:Bounds height="48.0" width="120.0" x="-210.0" y="61.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="exclusiveGatewayExit">
+                <omgdc:Bounds height="48.0" width="48.0" x="22.0" y="-31.0"/>
+            </bpmndi:BPMNShape>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</definitions>
